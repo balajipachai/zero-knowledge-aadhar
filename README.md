@@ -39,11 +39,14 @@ npm run dev                           # http://localhost:3010
 
 ## Sepolia deployment (cycle `2026-h2`)
 
-| Contract | Address |
-|---|---|
-| `GrantCycleRegistry` | [`0xC149039F93fE704190586f02bf3e855945AEE8E3`](https://sepolia.etherscan.io/address/0xC149039F93fE704190586f02bf3e855945AEE8E3) |
-| `AnonAadhaar` (`AnonAadhaarDeploy`) | [`0xAfF04bcdeaF32615b4e1A994DE687e3FD6a23696`](https://sepolia.etherscan.io/address/0xAfF04bcdeaF32615b4e1A994DE687e3FD6a23696) |
-| Groth16 verifier (`VerifierDeploy`) | [`0xA0A5bDb07cD91411D937a43Cf2C113A41e308817`](https://sepolia.etherscan.io/address/0xA0A5bDb07cD91411D937a43Cf2C113A41e308817) |
+All three contracts are source-verified on Etherscan and are an exact match on
+[Sourcify](https://repo.sourcify.dev/11155111/0xC149039F93fE704190586f02bf3e855945AEE8E3).
+
+| Contract | Address | Source |
+|---|---|---|
+| `GrantCycleRegistry` | [`0xC149039F93fE704190586f02bf3e855945AEE8E3`](https://sepolia.etherscan.io/address/0xC149039F93fE704190586f02bf3e855945AEE8E3) | [Verified](https://sepolia.etherscan.io/address/0xC149039F93fE704190586f02bf3e855945AEE8E3#code) |
+| `AnonAadhaar` (`AnonAadhaarDeploy`) | [`0xAfF04bcdeaF32615b4e1A994DE687e3FD6a23696`](https://sepolia.etherscan.io/address/0xAfF04bcdeaF32615b4e1A994DE687e3FD6a23696) | [Verified](https://sepolia.etherscan.io/address/0xAfF04bcdeaF32615b4e1A994DE687e3FD6a23696#code) |
+| Groth16 verifier (`VerifierDeploy`) | [`0xA0A5bDb07cD91411D937a43Cf2C113A41e308817`](https://sepolia.etherscan.io/address/0xA0A5bDb07cD91411D937a43Cf2C113A41e308817) | [Verified](https://sepolia.etherscan.io/address/0xA0A5bDb07cD91411D937a43Cf2C113A41e308817#code) |
 
 To point the app at it, set in `.env.local`: `CHAIN_ID=11155111`, your
 `RPC_URL`, `REGISTRY_ADDRESS=0xC149039F93fE704190586f02bf3e855945AEE8E3`, and
