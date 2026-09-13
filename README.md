@@ -37,6 +37,25 @@ npm run dev                           # http://localhost:3010
 - Housekeeping: `npm run cleanup` (purge stale drafts, rate limits and sessions),
   `npm run reconcile-anchors` (retry applications not yet anchored on-chain).
 
+## Sepolia deployment (cycle `2026-h2`)
+
+| Contract | Address |
+|---|---|
+| `GrantCycleRegistry` | [`0xC149039F93fE704190586f02bf3e855945AEE8E3`](https://sepolia.etherscan.io/address/0xC149039F93fE704190586f02bf3e855945AEE8E3) |
+| `AnonAadhaar` (`AnonAadhaarDeploy`) | [`0xAfF04bcdeaF32615b4e1A994DE687e3FD6a23696`](https://sepolia.etherscan.io/address/0xAfF04bcdeaF32615b4e1A994DE687e3FD6a23696) |
+| Groth16 verifier (`VerifierDeploy`) | [`0xA0A5bDb07cD91411D937a43Cf2C113A41e308817`](https://sepolia.etherscan.io/address/0xA0A5bDb07cD91411D937a43Cf2C113A41e308817) |
+
+To point the app at it, set in `.env.local`: `CHAIN_ID=11155111`, your
+`RPC_URL`, `REGISTRY_ADDRESS=0xC149039F93fE704190586f02bf3e855945AEE8E3`, and
+the same `CYCLE_ID`, `NULLIFIER_SEED` and relayer key the registry was deployed
+with. The server compares these with the contract at startup and refuses
+applications if any differ.
+
+To deploy a new cycle, fill in `contracts/ignition/parameters.sepolia.json`
+from `parameters.example.json` with a fresh seed and window, then run
+`npx hardhat ignition deploy ignition/modules/GrantCycle.ts --network sepolia --parameters ignition/parameters.sepolia.json`
+from `contracts/`.
+
 ## Tests
 
 ```bash
