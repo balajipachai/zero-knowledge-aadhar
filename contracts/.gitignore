@@ -1,0 +1,45 @@
+# Node modules
+/node_modules
+
+# Compilation output
+/dist
+
+# pnpm deploy output
+/bundle
+
+# Hardhat Build Artifacts
+/artifacts
+
+# Hardhat compilation (v2) support directory
+/cache
+
+# Typechain output
+/types
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Hardhat coverage reports
+/coverage
+
+# Gas snapshot files
+/.gas-snapshot
+
+# Snapshot cheatcodes output
+/snapshots
+
+# Ignition deployment records (contain addresses for networks we haven't
+# deployed to from this checkout; regenerate rather than trust a stale copy)
+/ignition/deployments
+
+# Environment-specific Ignition parameter files (generated locally / filled
+# in by the orchestrator for a real deploy). ignition/parameters.example.json
+# stays tracked with placeholders only.
+/ignition/parameters.local.json
+/ignition/parameters.sepolia.json
+
+# hardhat-keystore encrypted key file - machine-local only, never committed
+.hardhat/keystore.json
+

@@ -1,0 +1,10 @@
+{
+  "GrantCycleModule": {
+    "owner": "0xREPLACE_WITH_OWNER_ADDRESS",
+    "relayer": "0xREPLACE_WITH_RELAYER_ADDRESS",
+    "nullifierSeed": "REPLACE_WITH_A_FRESH_DECIMAL_UINT256_PER_CYCLE",
+    "cycleId": "0xREPLACE_WITH_A_BYTES32_CYCLE_IDENTIFIER",
+    "opensAt": "REPLACE_WITH_UNIX_SECONDS",
+    "closesAt": "REPLACE_WITH_UNIX_SECONDS"
+  }
+}
