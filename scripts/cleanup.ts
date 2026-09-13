@@ -19,7 +19,30 @@
  *      deletes rows that could no longer validate anyway.
  */
 import "dotenv/config";
-import { getPool, closePool } from "../src/server/db/pool";
+import { Pool } from "pg";
+
+// Housekeeping only touches the database, so it reads DATABASE_URL directly
+// (like scripts/migrate.ts) instead of going through src/server/config.ts,
+// which would also demand the relayer key, RPC URL, session secret, etc.
+// just to delete stale rows.
+const databaseUrl = process.env.DATABASE_URL;
+if (!databaseUrl) {
+  console.error("DATABASE_URL is required");
+  process.exit(1);
+}
+
+const pool = new Pool({ connectionString: databaseUrl });
+let poolClosed = false;
+
+function getPool(): Pool {
+  return pool;
+}
+
+async function closePool(): Promise<void> {
+  if (poolClosed) return;
+  poolClosed = true;
+  await pool.end();
+}
 
 async function purgeExpiredDrafts(): Promise<number> {
   let total = 0;
