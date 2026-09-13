@@ -1,12 +1,9 @@
-import { createRequire } from "node:module";
 import { encodeAbiParameters, keccak256, pad } from "viem";
+import { anonAadhaarCore } from "./anonAadhaarCoreRuntime";
 
-// See src/server/zk/verifyProof.ts for why this package is required rather
-// than imported: a CJS/ESM named-export interop gap under Next's server
-// runtime otherwise resolves these to `undefined`.
-const { hash } = createRequire(import.meta.url)("@anon-aadhaar/core") as {
-  hash: (message: bigint) => string;
-};
+// See src/server/zk/anonAadhaarCoreRuntime.ts for why this package is
+// loaded through that module rather than imported or `createRequire`d.
+const hash = (message: bigint): string => anonAadhaarCore().hash(message);
 
 /**
  * Converts an `applications`/`drafts` row id (a Postgres uuid, 16 bytes) into

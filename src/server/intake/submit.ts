@@ -1,6 +1,6 @@
-import { createRequire } from "node:module";
 import { getPool, withTransaction } from "../db/pool";
 import { getConfig } from "../config";
+import { anonAadhaarCore } from "../zk/anonAadhaarCoreRuntime";
 import { expectedPubkeyHash, verifyGroth16Proof } from "../zk/verifyProof";
 import { signalHashFor, appIdToBytes32 } from "../zk/signal";
 import {
@@ -12,11 +12,10 @@ import {
 import { withRelayerLock } from "../chain/relayerLock";
 import type { SubmitApplicationInput } from "./schema";
 
-// See src/server/zk/verifyProof.ts for why this package is required
-// rather than imported.
-const { packGroth16Proof } = createRequire(import.meta.url)("@anon-aadhaar/core") as {
-  packGroth16Proof: (proof: unknown) => string[];
-};
+// See src/server/zk/anonAadhaarCoreRuntime.ts for why this package is
+// loaded through that module rather than imported or `createRequire`d.
+const packGroth16Proof = (proof: unknown): string[] =>
+  anonAadhaarCore().packGroth16Proof(proof);
 
 export type SubmitRejectionReason =
   | "DRAFT_NOT_FOUND"

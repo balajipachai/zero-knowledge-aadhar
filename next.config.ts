@@ -2,15 +2,15 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   // snarkjs has native-ish WASM/worker-thread internals that don't survive
-  // bundling. @anon-aadhaar/core is deliberately NOT listed here: marking
-  // it external caused Turbopack to replace our own
-  // `createRequire(import.meta.url)("@anon-aadhaar/core")` calls (see
-  // src/server/zk/verifyProof.ts) with a bare `{}`, silently turning every
-  // named value `undefined` -- worse than plain bundling. Bundling it
-  // normally, combined with `createRequire` in our own code (rather than a
-  // static `import { x } from "@anon-aadhaar/core"`, which independently
-  // resolved to `undefined` under Next's CJS/ESM interop for this
-  // package's export shape), is what actually works.
+  // bundling. @anon-aadhaar/core is deliberately NOT listed here, and is
+  // never imported or `createRequire`d directly by server code: under a
+  // production build Turbopack rewrites a literal
+  // `createRequire(import.meta.url)("@anon-aadhaar/core")` to a bare `{}`
+  // (externality doesn't help), and a static `import { x }` resolves to
+  // `undefined` under Next's CJS/ESM interop for this package's export
+  // shape. Server code loads it only through
+  // src/server/zk/anonAadhaarCoreRuntime.ts, whose `eval("require")` the
+  // bundler can't rewrite.
   serverExternalPackages: ["snarkjs"],
   // Don't auto-generate AGENTS.md/CLAUDE.md -- this project's docs are
   // hand-written, not tool-generated.

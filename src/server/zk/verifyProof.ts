@@ -1,21 +1,11 @@
-import { createRequire } from "node:module";
 import { groth16 } from "snarkjs";
 import vkey from "./vkey.json";
 import { getConfig } from "../config";
-
-// @anon-aadhaar/core@2.4.3 ships as a CJS bundle whose named-export
-// getters were, under Next's server runtime, observed to resolve to
-// `undefined` when imported via `import { x } from "@anon-aadhaar/core"`
-// (a CJS/ESM named-export interop gap specific to how Next loads
-// `serverExternalPackages`). A plain `require()` sidesteps that interop
-// path entirely -- it just returns the fully-executed CJS exports object,
-// which is what every other place in this repo that calls this package
-// via plain Node (scripts/, contracts/test/) already does successfully.
-const anonAadhaarCore = createRequire(import.meta.url)("@anon-aadhaar/core") as {
-  productionPublicKeyHash: string;
-  testPublicKeyHash: string;
-};
-const { productionPublicKeyHash, testPublicKeyHash } = anonAadhaarCore;
+// Loaded via anonAadhaarCoreRuntime rather than imported or
+// `createRequire`d here: Turbopack's production build rewrites a literal
+// `createRequire(...)("@anon-aadhaar/core")` to `{}`, which made every
+// binding below `undefined` under `next start`. See that module's doc.
+import { anonAadhaarCore } from "./anonAadhaarCoreRuntime";
 
 /**
  * The exact shape of the public signals AnonAadhaar's groth16 circuit
@@ -48,6 +38,7 @@ export type Groth16Proof = {
  * the client sends; this is the only value the server compares against. */
 export function expectedPubkeyHash(): string {
   const { anonAadhaarMode } = getConfig();
+  const { productionPublicKeyHash, testPublicKeyHash } = anonAadhaarCore();
   return anonAadhaarMode === "production"
     ? productionPublicKeyHash
     : testPublicKeyHash;
