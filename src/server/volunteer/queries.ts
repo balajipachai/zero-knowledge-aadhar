@@ -194,8 +194,16 @@ export async function recordReviewAction(params: {
     }
 
     if (params.action === "award") {
+      // Serialize every award in this cycle so two volunteers can't both
+      // take the last slot. Postgres rejects `FOR UPDATE` on an aggregate,
+      // and row locks on already-awarded rows wouldn't block a concurrent
+      // award of a *different* application anyway; a per-cycle transaction
+      // advisory lock does, and is released on COMMIT/ROLLBACK.
+      await client.query(`SELECT pg_advisory_xact_lock(hashtext('award:' || $1))`, [
+        cfg.cycleId,
+      ]);
       const { rows: awardedCountRows } = await client.query(
-        `SELECT count(*)::int AS n FROM applications WHERE cycle_id = $1 AND review_status = 'awarded' FOR UPDATE`,
+        `SELECT count(*)::int AS n FROM applications WHERE cycle_id = $1 AND review_status = 'awarded'`,
         [cfg.cycleId],
       );
       if ((awardedCountRows[0].n as number) >= cfg.cycleSlots) {
