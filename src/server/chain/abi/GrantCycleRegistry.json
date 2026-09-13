@@ -1,0 +1,140 @@
+[
+  {
+    "type": "function",
+    "name": "anonAadhaar",
+    "stateMutability": "view",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "address" }]
+  },
+  {
+    "type": "function",
+    "name": "nullifierSeed",
+    "stateMutability": "view",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint256" }]
+  },
+  {
+    "type": "function",
+    "name": "cycleId",
+    "stateMutability": "view",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "bytes32" }]
+  },
+  {
+    "type": "function",
+    "name": "opensAt",
+    "stateMutability": "view",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint256" }]
+  },
+  {
+    "type": "function",
+    "name": "closesAt",
+    "stateMutability": "view",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint256" }]
+  },
+  {
+    "type": "function",
+    "name": "relayer",
+    "stateMutability": "view",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "address" }]
+  },
+  {
+    "type": "function",
+    "name": "owner",
+    "stateMutability": "view",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "address" }]
+  },
+  {
+    "type": "function",
+    "name": "applicationRecorded",
+    "stateMutability": "view",
+    "inputs": [{ "name": "appId", "type": "bytes32" }],
+    "outputs": [{ "name": "", "type": "bool" }]
+  },
+  {
+    "type": "function",
+    "name": "nullifierUsedBy",
+    "stateMutability": "view",
+    "inputs": [{ "name": "nullifier", "type": "uint256" }],
+    "outputs": [{ "name": "", "type": "bytes32" }]
+  },
+  {
+    "type": "function",
+    "name": "signalFor",
+    "stateMutability": "view",
+    "inputs": [{ "name": "appId", "type": "bytes32" }],
+    "outputs": [{ "name": "", "type": "uint256" }]
+  },
+  {
+    "type": "function",
+    "name": "recordApplication",
+    "stateMutability": "nonpayable",
+    "inputs": [
+      { "name": "appId", "type": "bytes32" },
+      { "name": "nullifier", "type": "uint256" },
+      { "name": "timestamp", "type": "uint256" },
+      { "name": "revealArray", "type": "uint256[4]" },
+      { "name": "groth16Proof", "type": "uint256[8]" }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "setRelayer",
+    "stateMutability": "nonpayable",
+    "inputs": [{ "name": "newRelayer", "type": "address" }],
+    "outputs": []
+  },
+  {
+    "type": "event",
+    "name": "ApplicationRecorded",
+    "inputs": [
+      { "name": "appId", "type": "bytes32", "indexed": true },
+      { "name": "nullifier", "type": "uint256", "indexed": true },
+      { "name": "timestamp", "type": "uint256", "indexed": false }
+    ],
+    "anonymous": false
+  },
+  { "type": "error", "name": "ZeroAddress", "inputs": [] },
+  {
+    "type": "error",
+    "name": "CycleNotOpen",
+    "inputs": [
+      { "name": "nowTimestamp", "type": "uint256" },
+      { "name": "opensAt", "type": "uint256" },
+      { "name": "closesAt", "type": "uint256" }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "ApplicationAlreadyRecorded",
+    "inputs": [{ "name": "appId", "type": "bytes32" }]
+  },
+  {
+    "type": "error",
+    "name": "NullifierAlreadyUsed",
+    "inputs": [
+      { "name": "nullifier", "type": "uint256" },
+      { "name": "usedByAppId", "type": "bytes32" }
+    ]
+  },
+  { "type": "error", "name": "NotEligible", "inputs": [] },
+  { "type": "error", "name": "InvalidProof", "inputs": [] },
+  {
+    "type": "error",
+    "name": "NotRelayer",
+    "inputs": [{ "name": "caller", "type": "address" }]
+  },
+  {
+    "type": "error",
+    "name": "InvalidWindow",
+    "inputs": [
+      { "name": "opensAt", "type": "uint256" },
+      { "name": "closesAt", "type": "uint256" }
+    ]
+  }
+]
