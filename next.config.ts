@@ -12,6 +12,20 @@ const nextConfig: NextConfig = {
   // src/server/zk/anonAadhaarCoreRuntime.ts, whose `eval("require")` the
   // bundler can't rewrite.
   serverExternalPackages: ["snarkjs"],
+  // @anon-aadhaar/react's proving loader creates its icon blob: URLs in a
+  // useMemo and revokes them in an effect cleanup. Strict Mode's dev-only
+  // mount -> cleanup -> remount reuses the memoised, already-revoked URLs, so
+  // the icons render broken. Production builds never double-run effects.
+  reactStrictMode: false,
+  // tsconfig.json redirects "@anon-aadhaar/core" to a type-only .d.ts shim so
+  // `tsc` skips upstream's source, but Turbopack honours `paths` too and would
+  // bundle that shim (no runtime exports -> `deserialize` is undefined in the
+  // browser). Point the bundler at the real build instead.
+  turbopack: {
+    resolveAlias: {
+      "@anon-aadhaar/core": "./node_modules/@anon-aadhaar/core/dist/index.js",
+    },
+  },
   // Don't auto-generate AGENTS.md/CLAUDE.md -- this project's docs are
   // hand-written, not tool-generated.
   agentRules: false,

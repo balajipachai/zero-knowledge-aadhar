@@ -52,7 +52,18 @@ export function ApplyFlow() {
   const [draft, setDraft] = useState<Draft | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [anchorStatus, setAnchorStatus] = useState<"anchored" | "pending" | null>(null);
-  const [anonAadhaar] = useAnonAadhaar();
+  const [anonAadhaar, startReq] = useAnonAadhaar();
+
+  // The SDK persists its session in localStorage, so a proof from an earlier
+  // attempt (bound to an old draft's signal) can still be "logged-in" when a
+  // new draft starts, and the submit effect below would send that stale proof
+  // straight away. Clear any leftover session while still on the form so the
+  // only proof ever submitted is one generated for the current draft.
+  useEffect(() => {
+    if (step === "form" && anonAadhaar.status === "logged-in") {
+      startReq({ type: "logout" });
+    }
+  }, [step, anonAadhaar.status, startReq]);
 
   async function handleFormSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -117,7 +128,8 @@ export function ApplyFlow() {
         const result = await res.json();
         setAnchorStatus(result.anchorStatus);
         setStep("done");
-      } catch {
+      } catch (err) {
+        console.error("submitting proof failed", err);
         if (!cancelled) {
           setErrorMessage("Your application could not be recorded. Please try again.");
           setStep("error");
