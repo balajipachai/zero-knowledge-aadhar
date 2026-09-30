@@ -1,0 +1,12 @@
+{
+  // Used only by tsx (see package.json). The root tsconfig redirects
+  // "@anon-aadhaar/core" to a type-only .d.ts shim so `tsc` skips upstream's
+  // source; tsx honours `paths` at runtime too, so scripts must not inherit
+  // that redirect or they try to execute the shim instead of the real package.
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["../*"]
+    }
+  }
+}

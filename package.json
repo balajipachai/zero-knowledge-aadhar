@@ -11,12 +11,12 @@
     "test": "bash scripts/check-secrets.sh && npm run test:unit && npm run test:integration",
     "test:unit": "vitest run --project unit",
     "test:integration": "vitest run --project integration",
-    "migrate": "tsx scripts/migrate.ts",
-    "dev:setup": "tsx scripts/dev-setup.ts",
-    "volunteer:add": "tsx scripts/volunteer-add.ts",
-    "make-test-qr": "tsx scripts/make-test-qr.ts",
-    "reconcile-anchors": "tsx scripts/reconcile-anchors.ts",
-    "cleanup": "tsx scripts/cleanup.ts",
+    "migrate": "tsx --tsconfig scripts/tsconfig.json scripts/migrate.ts",
+    "dev:setup": "tsx --tsconfig scripts/tsconfig.json scripts/dev-setup.ts",
+    "volunteer:add": "tsx --tsconfig scripts/tsconfig.json scripts/volunteer-add.ts",
+    "make-test-qr": "tsx --tsconfig scripts/tsconfig.json scripts/make-test-qr.ts",
+    "reconcile-anchors": "tsx --tsconfig scripts/tsconfig.json scripts/reconcile-anchors.ts",
+    "cleanup": "tsx --tsconfig scripts/tsconfig.json scripts/cleanup.ts",
     "check-secrets": "bash scripts/check-secrets.sh"
   },
   "overrides": {
