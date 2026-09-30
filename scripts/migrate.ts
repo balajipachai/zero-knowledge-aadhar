@@ -6,10 +6,13 @@
  *
  * Usage: DATABASE_URL=postgresql://localhost:5432/zk_aadhaar_dev npm run migrate
  */
-import "dotenv/config";
+import dotenv from "dotenv";
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { Client } from "pg";
+
+// dotenv/config only reads .env; load .env.local first (it wins), then .env.
+dotenv.config({ path: [".env.local", ".env"] });
 
 async function main() {
   const databaseUrl = process.env.DATABASE_URL;

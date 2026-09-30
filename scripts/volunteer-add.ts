@@ -6,7 +6,7 @@
  *
  * Usage: npm run volunteer:add
  */
-import "dotenv/config";
+import dotenv from "dotenv";
 import { createInterface } from "node:readline/promises";
 import { stdin, stdout } from "node:process";
 import { Client } from "pg";
@@ -14,6 +14,10 @@ import { hashPassword } from "../src/server/auth/password";
 
 const BACKSPACE = "\x7f";
 const CTRL_C = "\x03";
+
+
+// dotenv/config only reads .env; load .env.local first (it wins), then .env.
+dotenv.config({ path: [".env.local", ".env"] });
 
 /** Reads one line from stdin without echoing typed characters to the
  * terminal (so a password never appears in a scrollback buffer or in
