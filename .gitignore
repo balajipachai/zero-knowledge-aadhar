@@ -53,6 +53,7 @@ public/vkey.json
 
 # upstream test signing material / generated test QR images - downloaded at test time, never committed
 .cache/
+test-qrs/
 
 # hardhat / contracts build output
 contracts/cache/
@@ -63,3 +64,6 @@ contracts/ignition/deployments/
 
 # hardhat keystore (encrypted, but keep local-machine only)
 .hardhat/keystore.json
+
+
+test-qrs
